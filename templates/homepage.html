@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Homepage{% endblock %}
+{% block content %}
+<h1>Welcome, {{ user.username }}!</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <textarea name="text" rows="4" cols="50"></textarea>
+    <input type="file" name="file" accept="image/*,video/*">
+    <button type="submit">Post</button>
+</form>
+{% for storyboard in storyboards %}
+    <div>
+        <p>{{ storyboard.text }}</p>
+        {% if storyboard.photo %}
+            <img src="{{ storyboard.photo.url }}" alt="Photo">
+        {% endif %}
+        {% if storyboard.video %}
+            <video controls>
+                <source src="{{ storyboard.video.url }}" type="video/mp4">
+            </video>
+        {% endif %}
+    </div>
+{% endfor %}
+{% endblock %}
